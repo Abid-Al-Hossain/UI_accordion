@@ -27,7 +27,7 @@ export type AccordionState = {
   previewState: "default" | "hover" | "focus" | "active" | "open" | "closed" | "selected" | "loading" | "empty" | "error" | "success";
   motion: boolean;
   disabled: boolean;
-  role: "region" | "group" | "status" | "alert" | "dialog" | "menu" | "menubar" | "navigation" | "list" | "tree" | "table" | "tablist" | "form" | "textbox" | "img" | "application";
+  role: "region" | "group";
   itemCount: number;
   openMode: "single" | "multiple" | "manual" | "controlled" | "uncontrolled";
   collapsible: boolean;
