@@ -20,6 +20,42 @@ function shell(state: AccordionState): CSSProperties {
   };
 }
 
+function ChevronIcon({ isOpen, motion }: { isOpen: boolean; motion: boolean }) {
+  return (
+    <span
+      aria-hidden="true"
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+        transition: motion ? "transform 0.25s ease" : "none",
+        flexShrink: 0,
+      }}
+    >
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 6l4 4 4-4" />
+      </svg>
+    </span>
+  );
+}
+
+function PlusMinusIcon({ isOpen }: { isOpen: boolean }) {
+  return (
+    <span aria-hidden="true" style={{ display: "inline-flex", alignItems: "center", flexShrink: 0 }}>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+        {isOpen ? (
+          <path d="M3 8h10" />
+        ) : (
+          <>
+            <path d="M8 3v10" />
+            <path d="M3 8h10" />
+          </>
+        )}
+      </svg>
+    </span>
+  );
+}
+
 export default function LivePreview({ state }: { state: AccordionState }) {
   const itemCount = Math.max(1, Math.round(state.itemCount));
   const isMultiple = state.openMode === "multiple";
@@ -85,10 +121,13 @@ export default function LivePreview({ state }: { state: AccordionState }) {
                 font: "inherit",
                 opacity: disabled ? 0.5 : 1,
                 textAlign: "left",
+                transition: state.motion ? "background 0.2s ease, border-color 0.2s ease" : "none",
               }}
             >
               <span>{state.label} {index + 1}</span>
-              <span aria-hidden="true">{state.triggerIcon === "plus" ? (isOpen ? "-" : "+") : (isOpen ? "up" : "down")}</span>
+              {state.triggerIcon === "plus"
+                ? <PlusMinusIcon isOpen={isOpen} />
+                : <ChevronIcon isOpen={isOpen} motion={state.motion} />}
             </button>
           );
 
@@ -96,20 +135,29 @@ export default function LivePreview({ state }: { state: AccordionState }) {
             <div key={panelId} data-accordion-item={index + 1}>
               {renderHeading(button)}
               <div
-                id={panelId}
-                role="region"
-                aria-labelledby={buttonId}
-                hidden={!isOpen}
+                aria-hidden={!isOpen || undefined}
                 style={{
-                  marginTop: isOpen ? 8 : 0,
-                  padding: isOpen ? "12px 16px" : 0,
-                  borderRadius: Math.max(10, state.radius - 8),
-                  background: "rgba(255,255,255,0.06)",
-                  color: state.muted,
-                  fontSize: state.bodySize,
+                  display: "grid",
+                  gridTemplateRows: isOpen ? "1fr" : "0fr",
+                  transition: state.motion ? "grid-template-rows 0.25s ease" : "none",
+                  overflow: "hidden",
                 }}
               >
-                <p style={{ margin: 0 }}>{state.helper} Item {index + 1} follows the same native button and panel structure used in export.</p>
+                <div
+                  id={panelId}
+                  role="region"
+                  aria-labelledby={buttonId}
+                  style={{
+                    overflow: "hidden",
+                    padding: "12px 16px",
+                    borderRadius: Math.max(10, state.radius - 8),
+                    background: "rgba(255,255,255,0.06)",
+                    color: state.muted,
+                    fontSize: state.bodySize,
+                  }}
+                >
+                  <p style={{ margin: 0 }}>{state.helper} Item {index + 1} follows the same native button and panel structure used in export.</p>
+                </div>
               </div>
             </div>
           );
