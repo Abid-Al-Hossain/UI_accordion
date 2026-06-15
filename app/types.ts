@@ -1,4 +1,4 @@
-export type SectionId = "presets" | "basics" | "metadata" | "content" | "items" | "behavior" | "layout" | "placement" | "sizing" | "colors" | "border" | "radius" | "shadow" | "typography" | "transitions" | "focus-ring" | "states" | "accessibility";
+export type SectionId = "presets" | "basics" | "metadata" | "content" | "items" | "behavior" | "layout" | "placement" | "sizing" | "colors" | "border" | "radius" | "shadow" | "typography" | "transitions" | "focus-ring" | "states" | "disabled" | "accessibility";
 
 export type AccordionState = {
   title: string;
@@ -54,11 +54,24 @@ export type AccordionState = {
   muted: string;
   accent: string;
   border: string;
+  triggerBg: string;
+  triggerOpenBg: string;
+  triggerText: string;
+  triggerOpenText: string;
+  panelBg: string;
+  panelText: string;
+  itemBorder: string;
   titleSize: number;
   bodySize: number;
   fontWeight: number;
   previewState: "default" | "hover" | "focus" | "active" | "open" | "closed" | "selected" | "loading" | "empty" | "error" | "success";
   disabled: boolean;
+  disabledOpacity: number;
+  disabledCursor: "not-allowed" | "default" | "pointer";
+  disabledUseCustomColors: boolean;
+  disabledBg: string;
+  disabledText: string;
+  disabledBorder: string;
   role: "region" | "group";
   itemCount: number;
   openMode: "single" | "multiple" | "manual" | "controlled" | "uncontrolled";
@@ -66,6 +79,24 @@ export type AccordionState = {
   disabledItems: number;
   headingLevel: string;
   triggerIcon: string;
+  // Trigger states
+  hoverTriggerBg: string;
+  hoverTriggerText: string;
+  focusedTriggerBg: string;
+  openTriggerBorder: string;
+  // Trigger icon
+  triggerIconColor: string;
+  triggerIconSize: number;
+  chevronPosition: "left" | "right";
+  // Trigger geometry
+  triggerPaddingX: number;
+  triggerPaddingY: number;
+  triggerHeight: number;
+  // Item & panel geometry
+  itemGap: number;
+  itemRadius: number;
+  panelPaddingX: number;
+  panelPaddingY: number;
 };
 
 export type StudioPreset = { id: string; family: string; archetype: string; variant: string; size: string; tags: string[]; state: Partial<AccordionState> & Record<string, unknown> };
@@ -138,6 +169,10 @@ export const SECTIONS: Array<{ id: SectionId; label: string }> = [
   {
     "id": "states",
     "label": "State Preview"
+  },
+  {
+    "id": "disabled",
+    "label": "Disabled"
   },
   {
     "id": "accessibility",

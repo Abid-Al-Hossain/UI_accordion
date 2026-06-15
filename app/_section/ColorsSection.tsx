@@ -1,5 +1,4 @@
 "use client";
-
 import { SectionCard } from "@/components/shared/layout/SectionCard";
 import ColorControl from "@/components/shared/color/ColorControl";
 import type { AccordionState } from "../types";
@@ -7,8 +6,33 @@ import type { AccordionState } from "../types";
 type Props = { state: AccordionState; update: <K extends keyof AccordionState>(key: K, value: AccordionState[K]) => void };
 
 export default function ColorsSection({ state, update }: Props) {
-  return <SectionCard title="Colors" subtitle="Colors controls for native accordion generation."><ColorControl label="Accent" value={state.accent} onChange={(value) => update("accent", value)} />
-<ColorControl label="Background" value={state.background} onChange={(value) => update("background", value)} />
-<ColorControl label="Foreground" value={state.foreground} onChange={(value) => update("foreground", value)} />
-<ColorControl label="Muted text" value={state.muted} onChange={(value) => update("muted", value)} /></SectionCard>;
+  return (
+    <div className="space-y-4">
+      <SectionCard title="Shell" subtitle="Outer container colors.">
+        <ColorControl label="Background" value={state.background} onChange={(v) => update("background", v)} />
+        <ColorControl label="Foreground" value={state.foreground} onChange={(v) => update("foreground", v)} />
+        <ColorControl label="Accent" value={state.accent} onChange={(v) => update("accent", v)} />
+        <ColorControl label="Muted" value={state.muted} onChange={(v) => update("muted", v)} />
+        <ColorControl label="Border" value={state.border} onChange={(v) => update("border", v)} />
+      </SectionCard>
+      <SectionCard title="Trigger" subtitle="Accordion header button colors.">
+        <ColorControl label="Item border" value={state.itemBorder} onChange={(v) => update("itemBorder", v)} />
+        <ColorControl label="Closed background" value={state.triggerBg} onChange={(v) => update("triggerBg", v)} />
+        <ColorControl label="Closed text" value={state.triggerText} onChange={(v) => update("triggerText", v)} />
+        <ColorControl label="Open background" value={state.triggerOpenBg} onChange={(v) => update("triggerOpenBg", v)} />
+        <ColorControl label="Open text" value={state.triggerOpenText} onChange={(v) => update("triggerOpenText", v)} />
+        <ColorControl label="Open border" value={state.openTriggerBorder} onChange={(v) => update("openTriggerBorder", v)} />
+      </SectionCard>
+      <SectionCard title="Trigger states & icon" subtitle="Hover, focus, and chevron/plus icon.">
+        <ColorControl label="Hover background" value={state.hoverTriggerBg} onChange={(v) => update("hoverTriggerBg", v)} />
+        <ColorControl label="Hover text" value={state.hoverTriggerText} onChange={(v) => update("hoverTriggerText", v)} />
+        <ColorControl label="Focused background" value={state.focusedTriggerBg} onChange={(v) => update("focusedTriggerBg", v)} />
+        <ColorControl label="Icon color" value={state.triggerIconColor} onChange={(v) => update("triggerIconColor", v)} />
+      </SectionCard>
+      <SectionCard title="Panel" subtitle="Expanded content area colors.">
+        <ColorControl label="Background" value={state.panelBg} onChange={(v) => update("panelBg", v)} />
+        <ColorControl label="Text" value={state.panelText} onChange={(v) => update("panelText", v)} />
+      </SectionCard>
+    </div>
+  );
 }
